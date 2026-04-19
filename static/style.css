@@ -1,0 +1,196 @@
+/* ===== GLOBAL ===== */
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    color: white;
+}
+
+/* ===== NAVBAR ===== */
+.navbar {
+    padding: 15px 30px;
+    background: #020617;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    color: #8b5cf6;
+    margin: 0;
+}
+
+/* ===== CONTAINER ===== */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 90vh;
+}
+
+/* ===== CARD ===== */
+.card {
+    background: #1e293b;
+    padding: 30px;
+    border-radius: 12px;
+    width: 350px;
+    text-align: center;
+    box-shadow: 0 0 20px rgba(0,0,0,0.4);
+}
+
+/* ===== HOME ===== */
+.home-card {
+    background: #1e293b;
+    padding: 60px;
+    border-radius: 16px;
+    text-align: center;
+    width: 500px;
+}
+
+.main-title {
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* ===== INPUTS ===== */
+input, select {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 8px;
+    background: #334155;
+    color: white;
+    border: none;
+}
+
+/* ===== BUTTON ===== */
+button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 15px;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(to right, #8b5cf6, #3b82f6);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.25s;
+}
+
+button:hover {
+    transform: scale(1.05);
+}
+
+/* ===== LINKS ===== */
+a {
+    text-decoration: none;
+    color: #8b5cf6;
+}
+
+/* ===== RESULTS ===== */
+.results-card {
+    width: 700px;
+}
+
+.bus-card {
+    display: flex;
+    justify-content: space-between;
+    background: #1e293b;
+    padding: 20px;
+    border-radius: 12px;
+    margin: 15px 0;
+    transition: 0.2s;
+}
+
+.bus-card:hover {
+    transform: scale(1.02);
+}
+
+.tag {
+    font-size: 12px;
+    background: #334155;
+    padding: 5px 10px;
+    border-radius: 8px;
+}
+
+/* ===== SEAT PAGE ===== */
+.seat-card {
+    background: #1e293b;
+    padding: 30px;
+    border-radius: 12px;
+    width: 450px;
+}
+
+/* SEAT GRID */
+.bus-layout {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+    margin: 20px 0;
+}
+
+.gap {
+    visibility: hidden;
+}
+
+/* ===== PREMIUM SEATS ===== */
+.seat {
+    background: linear-gradient(145deg, #1e293b, #334155);
+    padding: 14px;
+    border-radius: 12px;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.25s;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+    font-size: 13px;
+}
+
+.seat:hover {
+    transform: translateY(-3px) scale(1.05);
+    background: linear-gradient(145deg, #334155, #475569);
+}
+
+/* SELECTED SEAT */
+.selected {
+    background: linear-gradient(to right, #22c55e, #16a34a);
+    box-shadow: 0 0 12px rgba(34,197,94,0.8);
+}
+
+/* ===== SEAT + MAP LAYOUT ===== */
+.seat-container {
+    display: flex;
+    gap: 30px;
+}
+
+/* MAP BOX */
+.map-box {
+    width: 420px;
+    height: 420px;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 0 15px rgba(0,0,0,0.5);
+}
+
+.map-box iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* ===== PAYMENT ===== */
+.payment-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #334155;
+    padding: 10px;
+    border-radius: 8px;
+    margin: 10px 0;
+}
+
+/* ===== TEXT ===== */
+.bottom-text {
+    margin-top: 15px;
+    color: #9ca3af;
+}

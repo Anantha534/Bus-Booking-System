@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container">
+    <div class="card">
+        <h2>Select Payment Method</h2>
+
+        <form method="POST" id="paymentForm">
+
+            <!-- OPTIONS -->
+            <div class="pay-option" onclick="selectOption(this, 'UPI')">
+                📱 PhonePe / UPI
+            </div>
+
+            <div class="pay-option" onclick="selectOption(this, 'Bank')">
+                🏦 Net Banking
+            </div>
+
+            <div class="pay-option" onclick="selectOption(this, 'Card')">
+                💳 Credit / Debit Card
+            </div>
+
+            <!-- hidden -->
+            <input type="hidden" name="method" id="methodInput">
+
+            <!-- input -->
+            <input type="text" id="details" name="details"
+                   placeholder="Select payment method first" required>
+
+            <button type="submit">Pay & Confirm</button>
+        </form>
+
+        <a href="/home">
+            <button style="margin-top:10px;">Back to Home</button>
+        </a>
+    </div>
+</div>
+
+<style>
+.pay-option {
+    background: #334155;
+    padding: 15px;
+    border-radius: 10px;
+    margin: 12px 0;
+    cursor: pointer;
+    text-align: center;
+    transition: 0.3s;
+}
+
+.pay-option:hover {
+    transform: scale(1.03);
+}
+
+.pay-option.selected {
+    background: linear-gradient(to right, #6366f1, #8b5cf6);
+    box-shadow: 0 0 15px rgba(139,92,246,0.7);
+}
+</style>
+
+<script>
+let currentMethod = "";
+
+function selectOption(element, method) {
+    document.querySelectorAll('.pay-option').forEach(opt => {
+        opt.classList.remove('selected');
+    });
+
+    element.classList.add('selected');
+
+    currentMethod = method;
+    document.getElementById("methodInput").value = method;
+
+    const input = document.getElementById("details");
+
+    if (method === "UPI") {
+        input.placeholder = "example@upi";
+    } else if (method === "Bank") {
+        input.placeholder = "Account Number (10-16 digits)";
+    } else if (method === "Card") {
+        input.placeholder = "1234 5678 9012 3456";
+    }
+}
+
+/* VALIDATION */
+document.getElementById("paymentForm").onsubmit = function() {
+
+    const val = document.getElementById("details").value.trim();
+
+    if (!currentMethod) {
+        alert("Select payment method");
+        return false;
+    }
+
+    if (currentMethod === "UPI") {
+        if (!val.includes("@")) {
+            alert("Enter valid UPI ID (example@upi)");
+            return false;
+        }
+    }
+
+    if (currentMethod === "Bank") {
+        if (!/^\d{10,16}$/.test(val)) {
+            alert("Enter valid account number (10-16 digits)");
+            return false;
+        }
+    }
+
+    if (currentMethod === "Card") {
+        let digits = val.replace(/\s/g, "");
+        if (!/^\d{16}$/.test(digits)) {
+            alert("Enter valid 16-digit card number");
+            return false;
+        }
+    }
+
+    return true;
+};
+</script>
+
+{% endblock %}

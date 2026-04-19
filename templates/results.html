@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container">
+    <div class="results-card">
+
+        <h2 id="routeTitle">Route</h2>
+        <p id="routeInfo" style="color:#9ca3af;"></p>
+
+        <!-- Bus 1 -->
+        <div class="bus-card">
+            <div>
+                <h3>Express Travels</h3>
+                <p id="time1"></p>
+                <span class="tag">AC Sleeper</span>
+            </div>
+            <div>
+                <h3>₹500</h3>
+                <a href="/seat"><button>Select Seats</button></a>
+            </div>
+        </div>
+
+        <!-- Bus 2 -->
+        <div class="bus-card">
+            <div>
+                <h3>FastLine Bus</h3>
+                <p id="time2"></p>
+                <span class="tag">Non-AC</span>
+            </div>
+            <div>
+                <h3>₹650</h3>
+                <a href="/seat"><button>Select Seats</button></a>
+            </div>
+        </div>
+
+        <!-- Bus 3 -->
+        <div class="bus-card">
+            <div>
+                <h3>Night Rider</h3>
+                <p id="time3"></p>
+                <span class="tag">Sleeper</span>
+            </div>
+            <div>
+                <h3>₹800</h3>
+                <a href="/seat"><button>Select Seats</button></a>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+/* ===== GET CITIES FROM STORAGE ===== */
+const fromCity = localStorage.getItem("fromCity") || "Chennai";
+const toCity = localStorage.getItem("toCity") || "Bangalore";
+
+/* ===== SHOW ROUTE ===== */
+document.getElementById("routeTitle").innerText = `${fromCity} → ${toCity}`;
+
+/* ===== SIMPLE DISTANCE MAP (KM) ===== */
+const distances = {
+    "Chennai-Bangalore": 350,
+    "Chennai-Coimbatore": 500,
+    "Bangalore-Mysore": 150,
+    "Mumbai-Pune": 150,
+    "Hyderabad-Bangalore": 570,
+    "Delhi-Agra": 230,
+    "Kolkata-Durgapur": 170
+};
+
+/* normalize key */
+const key1 = `${fromCity}-${toCity}`;
+const key2 = `${toCity}-${fromCity}`;
+
+let distance = distances[key1] || distances[key2] || 400; // fallback
+
+/* ===== CALCULATE TIME ===== */
+let avgSpeed = 60; // km/h
+let time = (distance / avgSpeed).toFixed(1);
+
+/* ===== SHOW INFO ===== */
+document.getElementById("routeInfo").innerText =
+    `Distance: ${distance} km • Estimated Time: ${time} hrs`;
+
+/* ===== RANDOMIZE BUS TIMES ===== */
+function randomTime(offset) {
+    let start = 6 + offset; // base hour
+    let end = start + parseFloat(time);
+    return `${start}:00 → ${Math.floor(end)}:${(end%1*60).toFixed(0).padStart(2,'0')}`;
+}
+
+document.getElementById("time1").innerText = randomTime(0);
+document.getElementById("time2").innerText = randomTime(2);
+document.getElementById("time3").innerText = randomTime(14);
+</script>
+
+{% endblock %}

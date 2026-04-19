@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container">
+    <div class="card">
+        <h2>Search Buses</h2>
+
+        <form method="GET" action="/results" id="searchForm">
+
+            <!-- STATE -->
+            <select id="state" required onchange="updateCities()">
+                <option value="">Select State</option>
+                <option value="Tamil Nadu">Tamil Nadu</option>
+                <option value="Karnataka">Karnataka</option>
+                <option value="Kerala">Kerala</option>
+                <option value="Maharashtra">Maharashtra</option>
+                <option value="Andhra Pradesh">Andhra Pradesh</option>
+                <option value="Telangana">Telangana</option>
+                <option value="Gujarat">Gujarat</option>
+                <option value="Rajasthan">Rajasthan</option>
+                <option value="Uttar Pradesh">Uttar Pradesh</option>
+                <option value="West Bengal">West Bengal</option>
+            </select>
+
+            <!-- FROM -->
+            <select id="from" name="from_city" required onchange="filterToCities()">
+                <option value="">Select From</option>
+            </select>
+
+            <!-- TO -->
+            <select id="to" name="to_city" required>
+                <option value="">Select To</option>
+            </select>
+
+            <!-- DATE -->
+            <input type="date" name="date" id="date" required>
+
+            <button type="submit">Search</button>
+        </form>
+    </div>
+</div>
+
+<script>
+
+/* ===== 10 STATES × 10 CITIES ===== */
+const cities = {
+    "Tamil Nadu": [
+        "Chennai","Coimbatore","Madurai","Trichy","Salem",
+        "Erode","Tirunelveli","Vellore","Thoothukudi","Dindigul"
+    ],
+
+    "Karnataka": [
+        "Bangalore","Mysore","Mangalore","Hubli","Belgaum",
+        "Davangere","Ballari","Udupi","Tumkur","Shimoga"
+    ],
+
+    "Kerala": [
+        "Kochi","Trivandrum","Kozhikode","Thrissur","Kannur",
+        "Alappuzha","Kollam","Palakkad","Kottayam","Malappuram"
+    ],
+
+    "Maharashtra": [
+        "Mumbai","Pune","Nagpur","Nashik","Aurangabad",
+        "Solapur","Kolhapur","Amravati","Thane","Jalgaon"
+    ],
+
+    "Andhra Pradesh": [
+        "Vijayawada","Visakhapatnam","Guntur","Nellore","Kurnool",
+        "Rajahmundry","Tirupati","Kadapa","Anantapur","Eluru"
+    ],
+
+    "Telangana": [
+        "Hyderabad","Warangal","Nizamabad","Karimnagar","Khammam",
+        "Mahbubnagar","Adilabad","Siddipet","Miryalaguda","Ramagundam"
+    ],
+
+    "Gujarat": [
+        "Ahmedabad","Surat","Vadodara","Rajkot","Bhavnagar",
+        "Jamnagar","Gandhinagar","Junagadh","Anand","Navsari"
+    ],
+
+    "Rajasthan": [
+        "Jaipur","Udaipur","Jodhpur","Kota","Ajmer",
+        "Bikaner","Alwar","Bharatpur","Sikar","Pali"
+    ],
+
+    "Uttar Pradesh": [
+        "Lucknow","Kanpur","Varanasi","Agra","Meerut",
+        "Prayagraj","Noida","Ghaziabad","Gorakhpur","Bareilly"
+    ],
+
+    "West Bengal": [
+        "Kolkata","Howrah","Durgapur","Asansol","Siliguri",
+        "Kharagpur","Haldia","Bardhaman","Malda","Jalpaiguri"
+    ]
+};
+
+/* ===== LOAD CITIES ===== */
+function updateCities() {
+    const state = document.getElementById("state").value;
+    const from = document.getElementById("from");
+    const to = document.getElementById("to");
+
+    from.innerHTML = '<option value="">Select From</option>';
+    to.innerHTML = '<option value="">Select To</option>';
+
+    if (state && cities[state]) {
+        cities[state].forEach(city => {
+            from.add(new Option(city, city));
+            to.add(new Option(city, city));
+        });
+    }
+}
+
+/* ===== REMOVE SELECTED FROM CITY FROM TO ===== */
+function filterToCities() {
+    const state = document.getElementById("state").value;
+    const fromCity = document.getElementById("from").value;
+    const to = document.getElementById("to");
+
+    to.innerHTML = '<option value="">Select To</option>';
+
+    if (state && cities[state]) {
+        cities[state].forEach(city => {
+            if (city !== fromCity) {
+                to.add(new Option(city, city));
+            }
+        });
+    }
+}
+
+/* ===== STORE FOR MAP ===== */
+document.getElementById("searchForm").addEventListener("submit", function() {
+    localStorage.setItem("fromCity", document.getElementById("from").value);
+    localStorage.setItem("toCity", document.getElementById("to").value);
+});
+
+/* ===== DATE VALIDATION ===== */
+let today = new Date().toISOString().split("T")[0];
+document.getElementById("date").setAttribute("min", today);
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container seat-container">
+
+    <!-- LEFT: SEATS -->
+    <div class="seat-card">
+        <h2>Select Seats</h2>
+
+        <div class="bus-layout" id="bus"></div>
+
+        <p id="selected">Selected Seats: None</p>
+
+        <form method="POST" action="/payment" onsubmit="return validateSeats()">
+            <input type="hidden" name="seats" id="seatInput">
+            <button type="submit">Proceed to Payment</button>
+        </form>
+    </div>
+
+    <!-- RIGHT: MAP -->
+    <div class="map-box">
+        <iframe id="mapFrame"></iframe>
+    </div>
+
+</div>
+
+<script>
+/* ===== SEAT LOGIC ===== */
+const bus = document.getElementById("bus");
+const selectedText = document.getElementById("selected");
+
+let selectedSeats = [];
+let seatNumber = 1;
+
+/* demo blocked seats */
+let bookedSeats = [3, 4, 10, 15];
+
+for (let i = 0; i < 8; i++) {
+    let gap = document.createElement("div");
+    gap.classList.add("gap");
+
+    bus.append(
+        createSeat(seatNumber++),
+        createSeat(seatNumber++),
+        gap,
+        createSeat(seatNumber++),
+        createSeat(seatNumber++)
+    );
+}
+
+function createSeat(num) {
+    let seat = document.createElement("div");
+    seat.classList.add("seat");
+    seat.innerText = "S" + num;
+
+    if (bookedSeats.includes(num)) {
+        seat.style.background = "#111";
+        seat.style.cursor = "not-allowed";
+        seat.innerText += " (X)";
+        return seat;
+    }
+
+    seat.onclick = function () {
+        if (selectedSeats.includes(num)) {
+            selectedSeats = selectedSeats.filter(s => s !== num);
+            seat.classList.remove("selected");
+        } else {
+            selectedSeats.push(num);
+            seat.classList.add("selected");
+        }
+
+        selectedText.innerText =
+            "Selected Seats: " + (selectedSeats.length ? selectedSeats.join(", ") : "None");
+
+        document.getElementById("seatInput").value = selectedSeats.join(",");
+    };
+
+    return seat;
+}
+
+function validateSeats() {
+    if (selectedSeats.length === 0) {
+        alert("Select at least one seat");
+        return false;
+    }
+    return true;
+}
+
+/* ===== MAP RESTORE ===== */
+const fromCity = localStorage.getItem("fromCity") || "Chennai";
+const toCity = localStorage.getItem("toCity") || "Bangalore";
+
+const mapUrl = `https://www.google.com/maps?q=${fromCity}+to+${toCity}&output=embed`;
+
+document.getElementById("mapFrame").src = mapUrl;
+
+</script>
+
+{% endblock %}

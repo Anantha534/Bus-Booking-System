@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container">
+    <div class="results-card">
+        <h2>My Tickets</h2>
+
+        {% for b in bookings %}
+        <div class="bus-card">
+            <div>
+                <h3>{{ b.from }} → {{ b.to }}</h3>
+                <p>Date: {{ b.date }}</p>
+                <p>Seats: {{ b.seats }}</p>
+                <p>Price: ₹{{ b.price }}</p>
+            </div>
+
+            <div>
+                <a href="/cancel/{{ b.id }}"><button>Cancel</button></a>
+                <a href="/delete/{{ b.id }}"><button style="background:red;">Delete</button></a>
+                <a href="/receipt/{{ b.id }}"><button style="background:green;">Download</button></a>
+            </div>
+        </div>
+        {% endfor %}
+
+    </div>
+</div>
+
+{% endblock %}
